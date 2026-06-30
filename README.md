@@ -110,4 +110,56 @@ Run this flow and show the output:
 
 Draw a class diagram for your solution — classes, fields, methods, relationship arrows, and multiplicity.
 
+```mermaid
+classDiagram
+
+class Car {
+    - registrationNumber : String
+    + Car(registrationNumber)
+    + getRegistrationNumber() : String
+}
+
+class ParkingSpot {
+    - spotNumber : int
+    - occupied : boolean
+    + ParkingSpot(spotNumber)
+    + isOccupied() : boolean
+    + occupy()
+    + free()
+    + getSpotNumber() : int
+}
+
+class ParkingTicket {
+    - car : Car
+    - spot : ParkingSpot
+    - arrivalTime : LocalDateTime
+    - departureTime : LocalDateTime
+    + ParkingTicket(car, spot)
+    + closeTicket()
+    + getDuration()
+}
+
+class ParkingLot {
+    - spots : List<ParkingSpot>
+    - activeTickets : List<ParkingTicket>
+    + ParkingLot(numberOfSpots)
+    + parkCar(car)
+    + removeCar(car)
+    + findFreeSpot()
+}
+
+ParkingLot "1" o-- "1..*" ParkingSpot
+ParkingLot "1" o-- "0..*" ParkingTicket
+ParkingTicket "1" *-- "1" Car
+ParkingTicket "1" --> "1" ParkingSpot
+```
+* ParkingLot → ParkingSpot = Aggregation
+    - Spots exist as part of the lot.
+    - The lot manages them.
+* ParkingLot → ParkingTicket = Aggregation
+    - The lot creates and stores active tickets.
+* ParkingTicket → Car
+    - Every ticket belongs to exactly one car.
+* ParkingTicket → ParkingSpot
+    - Every ticket records one parking spot.
 ---
