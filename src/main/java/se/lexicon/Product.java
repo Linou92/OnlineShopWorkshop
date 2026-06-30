@@ -24,7 +24,7 @@ public class Product {
         return price;
     }
 
-    private void applyDiscount(double percent) {
+    public void applyDiscount(double percent) {
         if(percent < 0 || percent > 80){
             throw new IllegalArgumentException("Discount must be between 0 and 80%");
         }
